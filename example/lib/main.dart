@@ -3,9 +3,14 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:funshare_plugin/funshare_plugin.dart';
+import 'package:funshare_plugin_example/media_picker.dart';
 
-void main() => runApp(MyApp());
 
+//void main() => runApp(MyApp());
+void main() => runApp(MaterialApp(
+  title: 'Navigation Basics',
+  home: MyApp(),
+));
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -43,7 +48,16 @@ class _MyAppState extends State<MyApp> {
             new MaterialButton(
               child: Text('Share Video'),
               onPressed: () async => await _shareVideo(),
-            )
+            ),
+            new MaterialButton(
+              child: Text('open new Window'),
+              onPressed: () {
+                // Navigator.push(
+                //         context,
+                //         MaterialPageRoute(builder: (context) => MediaPickerScreen()),
+                //       );
+              },
+            ),
           ],
         ),
       ),
@@ -54,6 +68,15 @@ class _MyAppState extends State<MyApp> {
     try {
       await FunsharePlugin.shareText(
           'This is my text to share with other applications.', 'my text title');
+    } catch (e) {
+      print('error: $e');
+    }
+  }
+
+  Future _shareLocalVideo() async {
+    try {
+      await FunsharePlugin.shareLocalVideo(
+          '/private/var/mobile/Containers/Data/Application/88D84983-9063-44B1-9764-3D252E5977C8/tmp/image_picker_543C9411-FC32-47D8-9440-ADC78CF43393-2546-0000023105421427.MOV');
     } catch (e) {
       print('error: $e');
     }

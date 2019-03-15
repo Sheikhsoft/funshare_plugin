@@ -13,6 +13,11 @@ class FunsharePlugin {
     _channel.invokeMethod('shareText', argsMap);
   }
 
+  static Future shareLocalVideo(String text) async {
+    Map argsMap = <String, String>{'localVideoPath': '$text'};
+    _channel.invokeMethod('shareLocalVideo', argsMap);
+  }
+
   static Future shareVideo(String videoUrl) async {
     Map argsMap = <String, String>{'videoUrl': '$videoUrl'};
     _channel.invokeMethod('shareVideo', argsMap);

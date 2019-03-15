@@ -41,7 +41,9 @@ public class SwiftFunsharePlugin: NSObject, FlutterPlugin,URLSessionDownloadDele
         self.shareText(arguments: call.arguments)
     } else if(call.method == "shareVideo"){
        self.ShareVideo(arguments: call.arguments)
-    } else {
+    } else if(call.method == "shareLocalVideo"){
+        self.shareLocalVideo(arguments: call.arguments)
+    }else {
         result(FlutterMethodNotImplemented)
     }
   }
@@ -62,6 +64,22 @@ public class SwiftFunsharePlugin: NSObject, FlutterPlugin,URLSessionDownloadDele
         activityViewController.popoverPresentationController?.sourceView = controller.view
         
         controller.show(activityViewController, sender: self)
+    }
+    
+    func shareLocalVideo(arguments:Any?) -> Void {
+        // prepare method channel args
+        let argsMap = arguments as! NSDictionary
+        let localVideoPath:String = argsMap.value(forKey: "localVideoPath") as! String
+        
+        let videoURL = URL(fileURLWithPath: localVideoPath)
+        //let objectsToShare = [destinationURL!] //comment!, imageData!, myWebsite!]
+        let activityItems: [Any] = [videoURL, "Check this out!"]
+        let activityController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+         let controller = UIApplication.shared.keyWindow!.rootViewController as! FlutterViewController
+        activityController.popoverPresentationController?.sourceView = controller.view
+        activityController.popoverPresentationController?.sourceRect = controller.view.frame
+        
+        controller.present(activityController, animated: true, completion: nil)
     }
     
     func shareImage(arguments:Any?) -> Void {
@@ -136,7 +154,7 @@ public class SwiftFunsharePlugin: NSObject, FlutterPlugin,URLSessionDownloadDele
                 let controller = UIApplication.shared.keyWindow!.rootViewController as! FlutterViewController
                 MBProgressHUD(for: controller.view)?.progress = self.progress
             })
-            usleep(50000)
+            usleep(30000)
         }
     }
     
